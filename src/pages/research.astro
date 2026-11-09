@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { research } from '../content/pages';
+---
+
+<Base title="Research" description="Dr Petra Alderman's research on elections, nation branding and authoritarianism in Southeast Asia.">
+  <PageHead label="Research" title="The rise, fall and maintenance of political regimes" lede={research.summary} />
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Overview</h2></div>
+      <div class="prose">
+        {research.intro.map((p) => <p>{p}</p>)}
+        <a class="more" href="/publications/">See publications</a>
+      </div>
+    </div>
+  </section>
+
+  {
+    research.themes.map((t) => (
+      <section class="section" id={t.id}>
+        <div class="wrap split">
+          <div>
+            <h2>{t.title}</h2>
+          </div>
+          <div class="prose">
+            {t.paragraphs.map((p) => (
+              <p>{p}</p>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Contribution</h2></div>
+      <div class="prose">
+        {research.closing.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+</Base>

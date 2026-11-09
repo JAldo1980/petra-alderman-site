@@ -1,0 +1,128 @@
+---
+import Base from '../layouts/Base.astro';
+import Citation from '../components/Citation.astro';
+import { site, book } from '../content/site';
+import { research } from '../content/pages';
+import { publications } from '../content/publications';
+import { media } from '../content/media';
+import { formatDate, byDateDesc } from '../lib/format';
+
+const featured = publications.filter((p) => p.featured).sort((a, b) => b.year - a.year);
+const commentary = media
+  .filter((m) => m.kind === 'commentary')
+  .sort(byDateDesc)
+  .slice(0, 4);
+---
+
+<Base>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="label">{site.discipline}</span>
+        <h1>{site.name}</h1>
+        <p class="position">
+          <strong>{site.role}, {site.centre}</strong>
+          <span>{site.institution}</span>
+        </p>
+        <ul class="tags" aria-label="Areas of expertise">
+          {site.expertise.map((tag) => <li>{tag}</li>)}
+        </ul>
+      </div>
+      <img
+        class="portrait"
+        src="/images/petra-alderman.png"
+        alt="Portrait of Dr Petra Alderman"
+        width="720"
+        height="720"
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <h2>About</h2>
+      </div>
+      <div class="prose">
+        {site.intro.map((p) => <p>{p}</p>)}
+        <a class="more" href="/about/">More about Petra</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="book">
+    <div class="wrap">
+      <img src={book.cover} alt={`Cover of ${book.title}`} width="420" height="420" loading="lazy" />
+      <div>
+        <span class="label">The book · {book.publisher}</span>
+        <h2>{book.title}</h2>
+        <p class="subtitle">{book.subtitle}</p>
+        <p class="meta">{book.formats}</p>
+        <a class="button" href={book.url}>Buy from {book.publisher}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="border-top: 0">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Research</h2>
+        <a class="more" href="/research/">Explore the research</a>
+      </div>
+      <p class="prose" style="margin-bottom: 2rem">{research.summary}</p>
+      <ul class="themes">
+        {
+          research.themes.map((t) => (
+            <li>
+              <h3>
+                <a href={`/research/#${t.id}`}>{t.title}</a>
+              </h3>
+              <p>{t.short}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Selected publications</h2>
+        <a class="more" href="/publications/">All publications</a>
+      </div>
+      <ul class="entries by-year">
+        {
+          featured.map((pub) => (
+            <li>
+              <span class="when">{pub.year}</span>
+              <Citation pub={pub} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Recent commentary</h2>
+        <a class="more" href="/media/">All media</a>
+      </div>
+      <ul class="entries">
+        {
+          commentary.map((m) => (
+            <li>
+              <span class="when">{formatDate(m.date)}</span>
+              <p class="what">
+                {m.url ? <a class="title" href={m.url}>{m.title}</a> : <span class="title">{m.title}</span>}
+                <span class="sub">{m.outlet}{m.note && ` · ${m.note}`}</span>
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>

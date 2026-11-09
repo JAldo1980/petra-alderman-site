@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { media, mediaIntro, type MediaItem } from '../content/media';
+import { formatDate, byDateDesc } from '../lib/format';
+
+const groups: { kind: MediaItem['kind']; id: string; heading: string }[] = [
+  { kind: 'live', id: 'live-interviews', heading: 'Live interviews' },
+  { kind: 'interview', id: 'other-interviews', heading: 'Other interviews' },
+  { kind: 'commentary', id: 'commentary', heading: 'Commentary & blog posts' },
+];
+
+const sections = groups
+  .map((g) => ({ ...g, items: media.filter((m) => m.kind === g.kind).sort(byDateDesc) }))
+  .filter((g) => g.items.length > 0);
+---
+
+<Base title="Media" description="Interviews, commentary and blog posts by Dr Petra Alderman.">
+  <PageHead label="Media" title="Media & commentary" />
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Overview</h2></div>
+      <div class="prose">
+        {mediaIntro.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  {
+    sections.map((s) => (
+      <section class="section" id={s.id}>
+        <div class="wrap split">
+          <div>
+            <h2>{s.heading}</h2>
+          </div>
+          <ul class="entries">
+            {s.items.map((m) => (
+              <li>
+                <span class="when">{formatDate(m.date)}</span>
+                <p class="what">
+                  {m.url ? (
+                    <a class="title" href={m.url}>
+                      {m.title}
+                    </a>
+                  ) : (
+                    <span class="title">{m.title}</span>
+                  )}
+                  <span class="sub">
+                    <em>{m.outlet}</em>
+                    {m.note && ` · ${m.note}`}
+                  </span>
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ))
+  }
+</Base>

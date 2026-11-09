@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Citation from '../components/Citation.astro';
+import { publications, type Publication } from '../content/publications';
+
+const groups: { kind: Publication['kind']; id: string; heading: string }[] = [
+  { kind: 'book', id: 'books', heading: 'Books' },
+  { kind: 'article', id: 'journal-articles', heading: 'Journal articles' },
+  { kind: 'chapter', id: 'book-chapters', heading: 'Book chapters' },
+  { kind: 'report', id: 'policy-reports', heading: 'Policy reports & briefs' },
+];
+
+const sections = groups
+  .map((g) => ({
+    ...g,
+    items: publications.filter((p) => p.kind === g.kind).sort((a, b) => b.year - a.year),
+  }))
+  .filter((g) => g.items.length > 0);
+---
+
+<Base title="Publications" description="Books, journal articles, book chapters and policy reports by Dr Petra Alderman.">
+  <PageHead
+    label="Publications"
+    title="Publications"
+    lede="My work has been published in leading disciplinary and area studies journals."
+  />
+
+  <div class="wrap">
+    <nav class="jump" aria-label="Publication types">
+      {
+        sections.map((s) => (
+          <a href={`#${s.id}`}>
+            {s.heading}
+            <span class="count">{s.items.length}</span>
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+
+  {
+    sections.map((s) => (
+      <section class="section" id={s.id}>
+        <div class="wrap split">
+          <div>
+            <h2>{s.heading}</h2>
+          </div>
+          <ul class="entries by-year">
+            {s.items.map((pub) => (
+              <li>
+                <span class="when">{pub.year}</span>
+                <Citation pub={pub} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ))
+  }
+</Base>

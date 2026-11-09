@@ -1,0 +1,39 @@
+---
+import type { Publication } from '../content/publications';
+import { closeTitle } from '../lib/format';
+
+interface Props {
+  pub: Publication;
+}
+const { pub } = Astro.props;
+const quoted = `‘${closeTitle(pub.title).replace(/\.$/, '.’')}`;
+const title = quoted.endsWith('’') ? quoted : `${quoted}’`;
+---
+
+<p class="what">
+  {pub.authors}.{' '}
+  {pub.kind === 'book' && <Fragment><em class="title">{pub.title}</em>. {pub.publisher}.</Fragment>}
+  {
+    pub.kind === 'article' && (
+      <Fragment>
+        <span class="title">{title}</span> <em>{pub.journal}</em>
+        {pub.issue === 'forthcoming' ? ', forthcoming' : ` ${pub.issue}`}.
+      </Fragment>
+    )
+  }
+  {
+    pub.kind === 'chapter' && (
+      <Fragment>
+        <span class="title">{title}</span> In: <em>{pub.book}</em>, {pub.editors}. {pub.publisher}.
+      </Fragment>
+    )
+  }
+  {
+    pub.kind === 'report' && (
+      <Fragment>
+        <span class="title">{title}</span> {pub.publisher}.
+      </Fragment>
+    )
+  }
+  {pub.url && <a class="ext" href={pub.url}>View →</a>}
+</p>

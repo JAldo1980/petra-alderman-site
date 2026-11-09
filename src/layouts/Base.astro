@@ -1,0 +1,106 @@
+---
+import '@fontsource-variable/newsreader';
+import '@fontsource-variable/newsreader/wght-italic.css';
+import '@fontsource-variable/public-sans';
+import '../styles/global.css';
+import { site, nav } from '../content/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.description } = Astro.props;
+const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.discipline}`;
+const path = Astro.url.pathname;
+const canonical = new URL(path, site.url).href;
+const year = new Date().getFullYear();
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Petra Alderman',
+  honorificPrefix: 'Dr',
+  jobTitle: site.role,
+  worksFor: { '@type': 'CollegeOrUniversity', name: site.institution },
+  url: site.url,
+  sameAs: [site.links.lse, site.links.linkedin, site.links.bluesky],
+};
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/images/petra-alderman.png', site.url).href} />
+    <meta name="theme-color" content="#2c4a57" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/">{site.name}</a>
+        <details class="nav-menu">
+          <summary class="nav-toggle">Menu</summary>
+        </details>
+        <nav class="site-nav" aria-label="Main">
+          <ul>
+            {
+              nav.map((item) => (
+                <li>
+                  <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div>
+          <p class="name">{site.name}</p>
+          <p>{site.role}, {site.centre}</p>
+          <p>{site.institution}</p>
+        </div>
+        <div>
+          <h2>Site</h2>
+          <ul class="cols">
+            {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+          </ul>
+        </div>
+        <div>
+          <h2>Elsewhere</h2>
+          <ul>
+            <li><a href={site.links.lse}>LSE profile</a></li>
+            <li><a href={site.links.linkedin}>LinkedIn</a></li>
+            <li><a href={site.links.bluesky}>Bluesky</a></li>
+            <li><a href={site.links.newBooksNetwork}>New Books Network</a></li>
+          </ul>
+        </div>
+        <div class="legal">
+          <span>© {year} Dr Petra Alderman. All rights reserved.</span>
+          <span>Designed &amp; built by James Alderman.</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

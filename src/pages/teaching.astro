@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { teaching } from '../content/pages';
+---
+
+<Base title="Teaching" description="Dr Petra Alderman's teaching experience and guest lectures.">
+  <PageHead label="Teaching" title="Teaching" />
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Approach</h2></div>
+      <div class="prose">
+        {teaching.intro.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Experience</h2></div>
+      <div>
+        {
+          teaching.experience.map((e) => (
+            <div class="group">
+              <h3>
+                {e.place}
+                <small>{e.capacity}</small>
+              </h3>
+              <ul class="plain">
+                {e.modules.map((m) => (
+                  <li>
+                    <strong style="font-weight: 500">{m.name}</strong>
+                    <span class="sub" style="display: block; color: var(--muted); font-size: 1.0625rem">
+                      {m.detail}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Guest lectures</h2></div>
+      <ul class="entries">
+        {
+          teaching.guestLectures.map((g) => (
+            <li>
+              <span class="when">{g.dateLabel}</span>
+              <p class="what">
+                <span class="title">{g.title}</span>
+                {g.note && ` [${g.note}]`}
+                <span class="sub">{g.venue}</span>
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>

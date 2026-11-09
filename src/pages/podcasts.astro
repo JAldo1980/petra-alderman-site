@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { podcasts } from '../content/pages';
+import { site } from '../content/site';
+---
+
+<Base title="Podcasts" description="Podcast episodes hosted by and featuring Dr Petra Alderman.">
+  <PageHead label="Podcasts" title="Podcasts" />
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Overview</h2></div>
+      <div class="prose">
+        {podcasts.intro.map((p) => <p>{p}</p>)}
+        <a class="more" href={site.links.newBooksNetwork}>All hosted episodes on the New Books Network</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Series</h2></div>
+      <ul class="plain">
+        {
+          podcasts.series.map((s) => (
+            <li>
+              {s.url ? <a href={s.url} style="font-weight: 500">{s.name}</a> : <strong style="font-weight: 500">{s.name}</strong>}
+              <span style="display: block; color: var(--muted); font-size: 1.0625rem">{s.producer}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Featured episodes</h2></div>
+      <div>
+        {
+          podcasts.episodeGroups.map((g) => (
+            <div class="group">
+              <h3>{g.heading}</h3>
+              <ul class="plain">
+                {g.episodes.map((e) => (
+                  <li>
+                    <a href={e.url}>{e.title}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { events, eventsIntro, type EventItem } from '../content/events';
+import { byDateDesc } from '../lib/format';
+
+const today = new Date().toISOString().slice(0, 10);
+const upcoming = events.filter((e) => e.date >= today).sort((a, b) => a.date.localeCompare(b.date));
+const past = events.filter((e) => e.date < today);
+
+const groups: { kind: EventItem['kind']; id: string; heading: string }[] = [
+  { kind: 'briefing', id: 'briefings', heading: 'FCDO briefings' },
+  { kind: 'conference', id: 'conferences', heading: 'Selected conferences & roundtables' },
+  { kind: 'seminar', id: 'seminars', heading: 'Research seminars' },
+  { kind: 'workshop', id: 'workshops', heading: 'Workshops' },
+];
+
+const sections = groups
+  .map((g) => ({ ...g, items: past.filter((e) => e.kind === g.kind).sort(byDateDesc) }))
+  .filter((g) => g.items.length > 0);
+---
+
+<Base title="Events" description="Talks, briefings, conference papers and seminars by Dr Petra Alderman.">
+  <PageHead label="Events" title="Talks & events" lede={eventsIntro[0]} />
+
+  {
+    upcoming.length > 0 && (
+      <section class="section" id="upcoming">
+        <div class="wrap split">
+          <div>
+            <h2>Upcoming</h2>
+          </div>
+          <ul class="entries">
+            {upcoming.map((e) => (
+              <li>
+                <span class="when">{e.dateLabel}</span>
+                <p class="what">
+                  {e.url ? <a class="title" href={e.url}>{e.title}</a> : <span class="title">{e.title}</span>}
+                  {e.venue && <span class="sub">{e.venue}</span>}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    sections.map((s) => (
+      <section class="section" id={s.id}>
+        <div class="wrap split">
+          <div>
+            <h2>{s.heading}</h2>
+          </div>
+          <ul class="entries">
+            {s.items.map((e) => (
+              <li>
+                <span class="when">{e.dateLabel}</span>
+                <p class="what">
+                  {e.url ? <a class="title" href={e.url}>{e.title}</a> : <span class="title">{e.title}</span>}
+                  {e.venue && <span class="sub">{e.venue}</span>}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ))
+  }
+</Base>

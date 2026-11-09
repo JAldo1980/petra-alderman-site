@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { site } from '../content/site';
+---
+
+<Base title="Contact" description="How to get in touch with Dr Petra Alderman.">
+  <PageHead
+    label="Contact"
+    title="Get in touch"
+    lede={`${site.role}, ${site.centre}, ${site.institution}.`}
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <ul class="cards">
+        {
+          site.contact.email && (
+            <li>
+              <a href={`mailto:${site.contact.email}`}>
+                <span class="label">Email</span>
+                <span>{site.contact.email}</span>
+              </a>
+            </li>
+          )
+        }
+        <li>
+          <a href={site.links.lse}>
+            <span class="label">LSE</span>
+            <span>Staff profile at the Saw Swee Hock Southeast Asia Centre</span>
+          </a>
+        </li>
+        <li>
+          <a href={site.links.linkedin}>
+            <span class="label">LinkedIn</span>
+            <span>Dr Petra Alderman</span>
+          </a>
+        </li>
+        <li>
+          <a href={site.links.bluesky}>
+            <span class="label">Bluesky</span>
+            <span>@petraalderman.bsky.social</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+</Base>

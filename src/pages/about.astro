@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { about } from '../content/pages';
+---
+
+<Base
+  title="About"
+  description="Dr Petra Alderman's academic background, positions and qualifications."
+>
+  <PageHead label="About" title="Author, researcher and policy advisor" />
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Profile</h2></div>
+      <div class="prose">
+        {about.paragraphs.map((p) => <p>{p}</p>)}
+        <a class="more" href="/contact/">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Positions</h2></div>
+      <ul class="rows">
+        {
+          about.positions.map((p) => (
+            <li>
+              <span class="when">{p.years}</span>
+              <span>
+                {p.role}
+                <span class="sub">{p.place}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Qualifications</h2></div>
+      <ul class="rows">
+        {
+          about.qualifications.map((q) => (
+            <li>
+              <span class="when">{q.year}</span>
+              <span>
+                {q.title}
+                <span class="sub">{q.place}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Recognition</h2></div>
+      <div class="prose">
+        {about.recognition.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Other activities</h2></div>
+      <ul class="plain">
+        {about.otherActivities.map((a) => <li>{a}</li>)}
+      </ul>
+    </div>
+  </section>
+</Base>
