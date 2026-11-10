@@ -996,36 +996,36 @@ ol {
 
 .affiliations {
   grid-column: 1 / -1;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem 2.75rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12.25rem, 1fr));
+  gap: 1.25rem 2rem;
   padding-top: 1.75rem;
   border-top: 1px solid var(--rule);
 }
 
 .affiliations li {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 0.45rem;
-}
-
-.affiliations .mark {
-  display: flex;
   align-items: center;
-  height: 34px;
+  gap: 0.9rem;
 }
 
 .affiliations img {
-  width: auto;
-  max-width: none;
+  width: 44px;
+  height: 52px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.affiliations .text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 
 .affiliations .inst {
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 500;
-  line-height: 1;
-  white-space: nowrap;
+  line-height: 1.25;
 }
 
 .affiliations .note {

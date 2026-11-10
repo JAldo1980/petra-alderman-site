@@ -71,24 +71,54 @@ export const featuredOn = [
   { name: 'ABC Australia', logo: '/images/logos/abc-australia.svg', height: 34 },
 ];
 
-// Institutions shown in a small row at the bottom of the home page hero.
-// `logo` is optional: without one, the institution's name is shown as text.
-// To add a logo, put the file in public/images/logos/ and set `logo` and
-// `height` (display height in pixels: about 34 for a square mark, about 9 for
-// a long single-line wordmark).
-export const affiliations: { name: string; note: string; logo?: string; height?: number }[] = [
+// Institutions shown in a small row at the bottom of the home page hero, each
+// with its coat of arms (or seal). `arms` is optional: without one, only the
+// name and note are shown. Image files live in public/images/logos/.
+// Credits for these images are listed on the /credits/ page — add a line there
+// if you add an image that needs attribution.
+export const affiliations: { name: string; note: string; arms?: string }[] = [
   {
     name: 'London School of Economics and Political Science',
     note: 'Current',
-    logo: '/images/logos/lse.svg',
-    height: 34,
+    arms: '/images/logos/lse-arms.svg',
   },
-  { name: 'University of Birmingham', note: 'Research Fellow, 2021–2025' },
+  {
+    name: 'University of Birmingham',
+    note: 'Research Fellow, 2021–2025',
+    arms: '/images/logos/birmingham-arms.svg',
+  },
   {
     name: 'University of Copenhagen',
     note: 'Postdoctoral Fellow, 2019–2021',
-    logo: '/images/logos/copenhagen.svg',
-    height: 9,
+    arms: '/images/logos/copenhagen-seal.svg',
   },
-  { name: 'University of Leeds', note: 'PhD, MA, BA' },
+  {
+    name: 'University of Leeds',
+    note: 'PhD, MA, BA',
+    arms: '/images/logos/leeds-arms.svg',
+  },
+];
+
+// Attribution for images used under a Creative Commons licence (shown on /credits/).
+export const imageCredits = [
+  {
+    what: 'Coat of arms of the London School of Economics and Political Science',
+    by: 'TheGlobetrotter',
+    source: 'https://commons.wikimedia.org/wiki/File:London_School_of_Economics_Coat_of_Arms.svg',
+  },
+  {
+    what: 'Shield of the University of Birmingham',
+    by: 'ET72',
+    source: 'https://commons.wikimedia.org/wiki/File:Shield_of_the_University_of_Birmingham.svg',
+  },
+  {
+    what: 'Seal of the University of Copenhagen',
+    by: 'Canconier',
+    source: 'https://commons.wikimedia.org/wiki/File:Ku-ucph-logo-svg.svg',
+  },
+  {
+    what: 'Shield of the University of Leeds',
+    by: 'Shadowssettle',
+    source: 'https://commons.wikimedia.org/wiki/File:Shield_of_the_University_of_Leeds.svg',
+  },
 ];

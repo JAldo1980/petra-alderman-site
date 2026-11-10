@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { imageCredits } from '../content/site';
+---
+
+<Base title="Image credits" description="Credits for images used on this site.">
+  <PageHead label="Credits" title="Image credits" />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="prose">
+        <p>
+          The university coats of arms and seal on the home page are drawings from Wikimedia Commons,
+          used under the
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0</a>
+          licence. They are shown to indicate where Petra works and has worked or studied, and do not
+          imply endorsement by those institutions.
+        </p>
+      </div>
+      <ul class="plain">
+        {
+          imageCredits.map((c) => (
+            <li>
+              {c.what}, by {c.by}. <a href={c.source}>Source on Wikimedia Commons</a>.
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>

@@ -41,14 +41,11 @@ const commentary = media
         {
           affiliations.map((a) => (
             <li>
-              <span class="mark">
-                {a.logo ? (
-                  <img src={a.logo} alt={a.name} style={`height: ${a.height ?? 34}px`} />
-                ) : (
-                  <span class="inst">{a.name}</span>
-                )}
+              {a.arms && <img src={a.arms} alt="" width="44" height="52" loading="eager" />}
+              <span class="text">
+                <span class="inst">{a.name}</span>
+                <span class="note">{a.note}</span>
               </span>
-              <span class="note">{a.note}</span>
             </li>
           ))
         }
