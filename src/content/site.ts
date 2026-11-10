@@ -70,3 +70,25 @@ export const featuredOn = [
   { name: 'France 24', logo: '/images/logos/france24.svg', height: 44 },
   { name: 'ABC Australia', logo: '/images/logos/abc-australia.svg', height: 34 },
 ];
+
+// Institutions shown in a small row at the bottom of the home page hero.
+// `logo` is optional: without one, the institution's name is shown as text.
+// To add a logo, put the file in public/images/logos/ and set `logo` and
+// `height` (display height in pixels: about 34 for a square mark, about 9 for
+// a long single-line wordmark).
+export const affiliations: { name: string; note: string; logo?: string; height?: number }[] = [
+  {
+    name: 'London School of Economics and Political Science',
+    note: 'Current',
+    logo: '/images/logos/lse.svg',
+    height: 34,
+  },
+  { name: 'University of Birmingham', note: 'Research Fellow, 2021–2025' },
+  {
+    name: 'University of Copenhagen',
+    note: 'Postdoctoral Fellow, 2019–2021',
+    logo: '/images/logos/copenhagen.svg',
+    height: 9,
+  },
+  { name: 'University of Leeds', note: 'PhD, MA, BA' },
+];

@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Citation from '../components/Citation.astro';
 import LogoTicker from '../components/LogoTicker.astro';
 import Latest from '../components/Latest.astro';
-import { site, book } from '../content/site';
+import { site, book, affiliations } from '../content/site';
 import { research } from '../content/pages';
 import { publications } from '../content/publications';
 import { media } from '../content/media';
@@ -37,6 +37,22 @@ const commentary = media
         width="720"
         height="720"
       />
+      <ul class="affiliations" aria-label="Institutions">
+        {
+          affiliations.map((a) => (
+            <li>
+              <span class="mark">
+                {a.logo ? (
+                  <img src={a.logo} alt={a.name} style={`height: ${a.height ?? 34}px`} />
+                ) : (
+                  <span class="inst">{a.name}</span>
+                )}
+              </span>
+              <span class="note">{a.note}</span>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 
