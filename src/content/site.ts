@@ -30,6 +30,9 @@ export const site = {
     lse: 'https://www.lse.ac.uk/seac/people',
     linkedin: 'https://www.linkedin.com/in/dr-petra-alderman-8873b44a/',
     bluesky: 'https://bsky.app/profile/petraalderman.bsky.social',
+    orcid: 'https://orcid.org/0000-0002-3059-6410',
+    // Add a Google Scholar profile link here to show it in the footer and on Contact.
+    googleScholar: '',
     newBooksNetwork:
       'https://newbooksnetwork.com/hosts/profile/4ccfa374-4540-4e8c-822d-64c91df7a00c',
   },
@@ -44,6 +47,8 @@ export const nav = [
   { label: 'About', href: '/about/' },
   { label: 'Research', href: '/research/' },
   { label: 'Publications', href: '/publications/' },
+  { label: 'Book', href: '/book/' },
+  { label: 'Policy', href: '/policy/' },
   { label: 'Teaching', href: '/teaching/' },
   { label: 'Podcasts', href: '/podcasts/' },
   { label: 'Media', href: '/media/' },
@@ -59,6 +64,22 @@ export const book = {
   formats: 'Available in hardback, paperback and ebook.',
   url: 'https://www.routledge.com/Branding-Authoritarian-Nations-Political-Legitimation-and-Strategic-National-Myths-in-Military-Ruled-Thailand/Alderman/p/book/9781032517551',
   cover: '/images/branding-authoritarian-nations.png',
+  series: 'Rethinking Southeast Asia',
+  doi: 'https://doi.org/10.4324/9781003403807',
+  // Chapter list shown on the /book/ page.
+  chapters: [
+    { title: 'Introduction', pages: '1–10' },
+    { title: 'Brand new authoritarianism?', pages: '11–42' },
+    { title: 'Building Thailand’s post-coup brand', pages: '43–78' },
+    { title: 'Thailand’s external branding', pages: '79–115' },
+    { title: 'Thailand’s internal branding', pages: '116–150' },
+    { title: 'Public reactions to nation branding', pages: '151–180' },
+    { title: 'From nation branding to political marketing', pages: '181–220' },
+    { title: 'Conclusion', pages: '221–229' },
+  ],
+  // Reviews and endorsements shown on the /book/ page. Add entries like:
+  //   { quote: '…', by: 'Name, Journal or Institution', url: 'https://…' }
+  reviews: [] as { quote: string; by: string; url?: string }[],
 };
 
 // Broadcasters shown in the scrolling "As featured on" strip on the home page.

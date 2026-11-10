@@ -42,6 +42,26 @@ classification. Three items are deliberately untagged: the Westminster Foundatio
 for Democracy report and the two June 2023 CEDAR blog posts. Change any tag by
 editing the `themes: [...]` line on the entry.
 
+## New pages — wording to approve
+
+These pages were assembled from content already on the site, but some linking
+sentences are new and written in Petra's name.
+
+- **Policy page intro** (`pages.ts` → `policy.intro`). The first clause ("Alongside
+  my academic research, I work with governments and international organisations…")
+  is new; the rest is from her existing text.
+- **Short biography** on the media page (`pages.ts` → `press.bio`). Third person,
+  built only from facts elsewhere on the site.
+- **Areas of expertise** on the media page (`pages.ts` → `press.topics`). Derived
+  from her research themes and stated expertise.
+- **Awards and languages** on About and the CV come from her public LinkedIn
+  profile. The five awards have no years; add them if wanted.
+- **Book page.** The chapter list and page ranges are from Crossref. The series
+  name "Rethinking Southeast Asia" was read off the cover image. "The argument"
+  reuses her Nation Branding research text, not the publisher's blurb.
+- **Open access badges** are on the three articles Crossref lists with a Creative
+  Commons licence (International Affairs, IPSR, JCSEA). Others may also be free to read.
+
 ## Could not verify
 
 - **France24.** The home page intro says "appeared on BBC, France24, and ABC

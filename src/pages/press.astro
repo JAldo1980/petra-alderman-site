@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { press, about } from '../content/pages';
+import { site, featuredOn } from '../content/site';
+import { media } from '../content/media';
+import { formatDate, byDateDesc } from '../lib/format';
+
+const recent = [...media].sort(byDateDesc).slice(0, 5);
+---
+
+<Base
+  title="For media and policymakers"
+  description="Areas of expertise, languages, biography and photograph for journalists, broadcasters and policymakers."
+>
+  <PageHead
+    label="Media & policy"
+    title="For media and policymakers"
+    lede="Background for journalists, broadcasters, event organisers and policy teams."
+  />
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Areas of expertise</h2></div>
+      <ul class="plain">
+        {press.topics.map((t) => <li>{t}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Languages</h2></div>
+      <ul class="rows">
+        {
+          about.languages.map((l) => (
+            <li>
+              <span class="when">{l.level}</span>
+              <span>{l.name}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Short biography</h2></div>
+      <div class="prose">
+        <p>{press.bio}</p>
+        <a class="more" href="/cv/">Full CV</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Photograph</h2></div>
+      <div class="headshot">
+        <img src={press.headshot} alt="Portrait of Dr Petra Alderman" width="160" height="160" loading="lazy" />
+        <a class="more" href={press.headshot} download="petra-alderman.png">Download photograph</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Recent media</h2></div>
+      <div>
+        <p class="prose">Featured on {featuredOn.map((f) => f.name).join(', ')}.</p>
+        <ul class="entries">
+          {
+            recent.map((m) => (
+              <li>
+                <span class="when">{formatDate(m.date)}</span>
+                <p class="what">
+                  {m.url ? <a class="title" href={m.url}>{m.title}</a> : <span class="title">{m.title}</span>}
+                  <span class="sub"><em>{m.outlet}</em></span>
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+        <p style="margin-top: 1.25rem"><a class="more" href="/media/">All media</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Get in touch</h2></div>
+      <div class="prose">
+        <p>
+          {site.contact.email && <Fragment><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> · </Fragment>}
+          <a href={site.links.linkedin}>LinkedIn</a> · <a href={site.links.bluesky}>Bluesky</a> ·
+          <a href={site.links.lse}>LSE profile</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .headshot {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .headshot img {
+    width: 10rem;
+    border-radius: 50%;
+  }
+</style>

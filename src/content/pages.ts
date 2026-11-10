@@ -47,6 +47,43 @@ export const about = {
     },
   ],
 
+  // Shown on the About page, the media page and the CV.
+  languages: [
+    { name: 'Slovak', level: 'Native or bilingual' },
+    { name: 'Czech', level: 'Native or bilingual' },
+    { name: 'English', level: 'Full professional' },
+    { name: 'Thai', level: 'Professional working' },
+    { name: 'German', level: 'Limited working' },
+  ],
+
+  awards: [
+    {
+      title: 'Saranrom Award',
+      by: 'The Royal Thai Embassy, London',
+      note: 'Best overall academic performance in Thai studies.',
+    },
+    {
+      title: 'Lanna Award',
+      by: 'The Royal Thai Embassy, London',
+      note: 'Outstanding academic results and research during a year abroad in Thailand.',
+    },
+    {
+      title: 'Don Rimmington Prize',
+      by: 'University of Leeds',
+      note: 'Best overall graduating performance in the Department of East Asian Studies.',
+    },
+    {
+      title: 'Santander Scholarship',
+      by: 'University of Leeds',
+      note: 'Awarded on academic merit to support MA studies.',
+    },
+    {
+      title: 'Crabtree Award',
+      by: 'University of Leeds',
+      note: 'Outstanding academic achievement in the first year of studies.',
+    },
+  ],
+
   otherActivities: [
     'Former editor and host on the Nordic Asia Podcast series (20,000+ downloads a month), from April 2020.',
     'Thailand team member, Palacky University Olomouc, Sinophone Borderlands survey in Asia, from March 2021.',
@@ -249,4 +286,45 @@ export const podcasts = {
       ],
     },
   ],
+};
+
+// ── Policy engagement ──────────────────────────────────────────────────────
+// The briefings and policy reports on this page are pulled in automatically
+// from events.ts (kind: 'briefing') and publications.ts (kind: 'report').
+
+export const policy = {
+  intro: [
+    'Alongside my academic research, I work with governments and international organisations on questions of democracy, elections and authoritarian politics. I have briefed research analysts at the Foreign, Commonwealth and Development Office (FCDO) in the UK, and my work has been funded by the United States Institute of Peace and the Westminster Foundation for Democracy.',
+  ],
+
+  advisoryRoles: [
+    {
+      years: '2016–2020',
+      role: 'International consultant, Thailand’s 2019 General Elections',
+      place: 'United States Institute of Peace',
+    },
+    {
+      years: '2014–2015',
+      role: 'Consultant (Thailand case study), Preventing Election Violence, Lessons Learned Project',
+      place: 'United States Institute of Peace',
+    },
+  ],
+};
+
+// ── For media and policymakers ─────────────────────────────────────────────
+
+export const press = {
+  // What Petra can be approached to comment on.
+  topics: [
+    'Thai politics and elections',
+    'Authoritarian regimes and democratic decline',
+    'Election commissions and electoral manipulation',
+    'Nation branding and political legitimation',
+    'Southeast Asian politics',
+  ],
+
+  // A short third-person biography for programme notes and introductions.
+  bio: 'Dr Petra Alderman is a comparative political scientist specialising in authoritarian regimes, democratic decline and political branding, with a focus on Southeast Asia and Thailand. She is Centre Manager of the Saw Swee Hock Southeast Asia Centre at the London School of Economics and Political Science and the author of Branding Authoritarian Nations: Political Legitimation and Strategic National Myths in Military-Ruled Thailand (Routledge). She previously held research fellowships at the University of Birmingham and the University of Copenhagen, and holds a PhD from the University of Leeds.',
+
+  headshot: '/images/petra-alderman.png',
 };

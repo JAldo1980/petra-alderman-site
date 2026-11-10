@@ -25,6 +25,11 @@ All content lives in `src/content/`. You never need to touch the page layouts.
 | Talks, briefings, conferences (past and upcoming)  | `src/content/events.ts`       |
 | About, Research, Teaching and Podcasts text        | `src/content/pages.ts`        |
 | Logos in the "As featured on" strip                | `src/content/site.ts`         |
+| Institutions and coats of arms in the hero         | `src/content/site.ts`         |
+| Book page: chapters, reviews                       | `src/content/site.ts` → `book` |
+| Awards, languages                                  | `src/content/pages.ts` → `about` |
+| Policy page intro and advisory roles               | `src/content/pages.ts` → `policy` |
+| Media page: topics, short bio, headshot            | `src/content/pages.ts` → `press` |
 | The list of research themes                        | `src/content/themes.ts`       |
 
 Each file starts with a short note on its fields. In general: copy an existing
@@ -43,6 +48,16 @@ entry, paste it into the list, change the details, save.
 - **Podcast audio.** Give an episode an `audio` id (see the note in `pages.ts`) and
   it gets a Listen button. Nothing loads from YouTube or Megaphone until a visitor
   clicks play, apart from the YouTube thumbnail image.
+- **CV.** The `/cv/` page is assembled from the content files, so it is always in
+  step with the site. Its button opens the browser's print dialog, where "Save as
+  PDF" produces a clean CV without the site header or footer.
+- **Policy page.** Briefings (`events.ts`, kind `briefing`) and policy reports
+  (`publications.ts`, kind `report`) appear there automatically.
+- **Publication extras.** `openAccess: true` adds an "Open access" badge;
+  `abstract: '…'` adds an expandable abstract. Every entry has a "Copy citation" button.
+- **Book reviews.** Add entries to `book.reviews` in `site.ts` and a Reviews section
+  appears on the book page.
+- **Google Scholar.** Paste the profile URL into `links.googleScholar` in `site.ts`.
 - **Home page picks.** Publications marked `featured: true` appear under
   "Selected publications". "Recent commentary" always shows the four newest
   commentary items from `media.ts`.

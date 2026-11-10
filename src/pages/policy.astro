@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Citation from '../components/Citation.astro';
+import { policy } from '../content/pages';
+import { events } from '../content/events';
+import { publications } from '../content/publications';
+import { byDateDesc } from '../lib/format';
+
+const briefings = events.filter((e) => e.kind === 'briefing').sort(byDateDesc);
+const reports = publications.filter((p) => p.kind === 'report').sort((a, b) => b.year - a.year);
+---
+
+<Base
+  title="Policy engagement"
+  description="Dr Petra Alderman's policy briefings, advisory roles and policy reports."
+>
+  <PageHead label="Policy" title="Policy engagement" />
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Overview</h2></div>
+      <div class="prose">
+        {policy.intro.map((p) => <p>{p}</p>)}
+        <a class="more" href="/press/">Information for media and policymakers</a>
+      </div>
+    </div>
+  </section>
+
+  {
+    briefings.length > 0 && (
+      <section class="section">
+        <div class="wrap split">
+          <div>
+            <h2>Government briefings</h2>
+          </div>
+          <ul class="entries">
+            {briefings.map((e) => (
+              <li>
+                <span class="when">{e.dateLabel}</span>
+                <p class="what">
+                  <span class="title">{e.title}</span>
+                  <span class="sub">Foreign, Commonwealth and Development Office (FCDO), UK</span>
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Advisory roles</h2></div>
+      <ul class="rows">
+        {
+          policy.advisoryRoles.map((r) => (
+            <li>
+              <span class="when">{r.years}</span>
+              <span>
+                {r.role}
+                <span class="sub">{r.place}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  {
+    reports.length > 0 && (
+      <section class="section">
+        <div class="wrap split">
+          <div>
+            <h2>Policy reports & briefs</h2>
+          </div>
+          <ul class="entries by-year">
+            {reports.map((pub) => (
+              <li>
+                <span class="when">{pub.year}</span>
+                <Citation pub={pub} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+</Base>

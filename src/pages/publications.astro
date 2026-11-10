@@ -61,12 +61,18 @@ const sections = groups
                 <span class="when">{pub.year}</span>
                 <div>
                   <Citation pub={pub} />
-                  {pub.themes && pub.themes.length > 0 && (
-                    <p class="chips">
-                      {pub.themes.map((id) => (
-                        <a href={`/research/#${id}`}>{themeLabel[id]}</a>
-                      ))}
-                    </p>
+                  <p class="chips">
+                    {pub.openAccess && <span class="oa">Open access</span>}
+                    {(pub.themes ?? []).map((id) => (
+                      <a href={`/research/#${id}`}>{themeLabel[id]}</a>
+                    ))}
+                    <button type="button" class="copy" hidden>Copy citation</button>
+                  </p>
+                  {pub.abstract && (
+                    <details class="abstract">
+                      <summary>Abstract</summary>
+                      <p>{pub.abstract}</p>
+                    </details>
                   )}
                 </div>
               </li>
@@ -107,6 +113,26 @@ const sections = groups
       if (theme) url.searchParams.set('theme', theme);
       else url.searchParams.delete('theme');
       history.replaceState(null, '', url);
+    }
+
+    // Copy citation
+    for (const button of document.querySelectorAll<HTMLButtonElement>('button.copy')) {
+      if (!navigator.clipboard) continue;
+      button.hidden = false;
+      button.addEventListener('click', async () => {
+        const source = button.closest('li')?.querySelector('.what');
+        if (!source) return;
+        const clone = source.cloneNode(true) as HTMLElement;
+        clone.querySelector('.ext')?.remove();
+        const text = (clone.textContent ?? '').replace(/\s+/g, ' ').trim();
+        try {
+          await navigator.clipboard.writeText(text);
+          button.textContent = 'Copied';
+        } catch {
+          button.textContent = 'Could not copy';
+        }
+        setTimeout(() => (button.textContent = 'Copy citation'), 1800);
+      });
     }
 
     if (bar) {

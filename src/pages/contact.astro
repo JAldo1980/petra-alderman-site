@@ -31,6 +31,32 @@ import { site } from '../content/site';
           </a>
         </li>
         <li>
+          <a href="/press/">
+            <span class="label">Media & policy</span>
+            <span>Expertise, biography and photograph</span>
+          </a>
+        </li>
+        {
+          site.links.orcid && (
+            <li>
+              <a href={site.links.orcid}>
+                <span class="label">ORCID</span>
+                <span>{site.links.orcid.replace('https://orcid.org/', '')}</span>
+              </a>
+            </li>
+          )
+        }
+        {
+          site.links.googleScholar && (
+            <li>
+              <a href={site.links.googleScholar}>
+                <span class="label">Google Scholar</span>
+                <span>Publications and citations</span>
+              </a>
+            </li>
+          )
+        }
+        <li>
           <a href={site.links.linkedin}>
             <span class="label">LinkedIn</span>
             <span>Dr Petra Alderman</span>

@@ -24,7 +24,7 @@ const jsonLd = {
   jobTitle: site.role,
   worksFor: { '@type': 'CollegeOrUniversity', name: site.institution },
   url: site.url,
-  sameAs: [site.links.lse, site.links.linkedin, site.links.bluesky],
+  sameAs: [site.links.lse, site.links.linkedin, site.links.bluesky, site.links.orcid].filter(Boolean),
 };
 ---
 
@@ -36,6 +36,7 @@ const jsonLd = {
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap.xml" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
@@ -85,12 +86,16 @@ const jsonLd = {
           <h2>Site</h2>
           <ul class="cols">
             {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+            <li><a href="/cv/">CV</a></li>
+            <li><a href="/press/">For media</a></li>
           </ul>
         </div>
         <div>
           <h2>Elsewhere</h2>
           <ul>
             <li><a href={site.links.lse}>LSE profile</a></li>
+            {site.links.orcid && <li><a href={site.links.orcid}>ORCID</a></li>}
+            {site.links.googleScholar && <li><a href={site.links.googleScholar}>Google Scholar</a></li>}
             <li><a href={site.links.linkedin}>LinkedIn</a></li>
             <li><a href={site.links.bluesky}>Bluesky</a></li>
             <li><a href={site.links.newBooksNetwork}>New Books Network</a></li>

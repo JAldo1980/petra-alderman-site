@@ -1,0 +1,298 @@
+---
+import Base from '../layouts/Base.astro';
+import Citation from '../components/Citation.astro';
+import { site } from '../content/site';
+import { about, teaching, policy } from '../content/pages';
+import { publications, type Publication } from '../content/publications';
+import { events, type EventItem } from '../content/events';
+import { media } from '../content/media';
+import { formatDate, byDateDesc } from '../lib/format';
+
+const pubGroups: { kind: Publication['kind']; heading: string }[] = [
+  { kind: 'book', heading: 'Books' },
+  { kind: 'article', heading: 'Journal articles' },
+  { kind: 'chapter', heading: 'Book chapters' },
+  { kind: 'report', heading: 'Policy reports and briefs' },
+];
+const pubs = pubGroups
+  .map((g) => ({ ...g, items: publications.filter((p) => p.kind === g.kind).sort((a, b) => b.year - a.year) }))
+  .filter((g) => g.items.length > 0);
+
+const talkGroups: { kind: EventItem['kind']; heading: string }[] = [
+  { kind: 'briefing', heading: 'Government briefings (FCDO)' },
+  { kind: 'conference', heading: 'Conferences and roundtables' },
+  { kind: 'seminar', heading: 'Research seminars' },
+  { kind: 'workshop', heading: 'Workshops' },
+];
+const talks = talkGroups
+  .map((g) => ({ ...g, items: events.filter((e) => e.kind === g.kind).sort(byDateDesc) }))
+  .filter((g) => g.items.length > 0);
+
+const interviews = media.filter((m) => m.kind !== 'commentary').sort(byDateDesc);
+const commentary = media.filter((m) => m.kind === 'commentary').sort(byDateDesc);
+const updated = formatDate(new Date().toISOString().slice(0, 10));
+---
+
+<Base title="Curriculum vitae" description="Curriculum vitae of Dr Petra Alderman.">
+  <div class="wrap cv">
+    <header class="cv-head">
+      <div>
+        <span class="label">Curriculum vitae</span>
+        <h1>{site.name}</h1>
+        <p>
+          {site.role}, {site.centre}<br />
+          {site.institution}
+        </p>
+        <p class="links">
+          {site.url.replace('https://', '')}
+          {site.contact.email && ` · ${site.contact.email}`}
+          {site.links.orcid && ` · ORCID ${site.links.orcid.replace('https://orcid.org/', '')}`}
+        </p>
+      </div>
+      <button type="button" class="print" id="print-cv">Print or save as PDF</button>
+    </header>
+
+    <section>
+      <h2>Positions</h2>
+      <ul class="cv-rows">
+        {about.positions.map((p) => <li><span>{p.years}</span><span>{p.role}, {p.place}</span></li>)}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <ul class="cv-rows">
+        {about.qualifications.map((q) => <li><span>{q.year}</span><span>{q.title}, {q.place}</span></li>)}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Publications</h2>
+      {
+        pubs.map((g) => (
+          <Fragment>
+            <h3>{g.heading}</h3>
+            <ul class="cv-rows">
+              {g.items.map((pub) => (
+                <li>
+                  <span>{pub.year}</span>
+                  <Citation pub={pub} />
+                </li>
+              ))}
+            </ul>
+          </Fragment>
+        ))
+      }
+    </section>
+
+    <section>
+      <h2>Awards and recognition</h2>
+      <ul class="cv-list">
+        {about.recognition.map((r) => <li>{r}</li>)}
+        {about.awards.map((a) => <li>{a.title}, {a.by}. {a.note}</li>)}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Policy and advisory work</h2>
+      <ul class="cv-rows">
+        {policy.advisoryRoles.map((r) => <li><span>{r.years}</span><span>{r.role}, {r.place}</span></li>)}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Teaching</h2>
+      {
+        teaching.experience.map((e) => (
+          <Fragment>
+            <h3>{e.place} ({e.capacity})</h3>
+            <ul class="cv-list">
+              {e.modules.map((m) => <li>{m.name}. {m.detail}</li>)}
+            </ul>
+          </Fragment>
+        ))
+      }
+      <h3>Guest lectures</h3>
+      <ul class="cv-list">
+        {teaching.guestLectures.map((g) => <li>‘{g.title}’{g.note && ` [${g.note}]`}, {g.venue}, {g.dateLabel}.</li>)}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Talks and presentations</h2>
+      {
+        talks.map((g) => (
+          <Fragment>
+            <h3>{g.heading}</h3>
+            <ul class="cv-list">
+              {g.items.map((e) => <li>‘{e.title}’{e.venue && `, ${e.venue}`}, {e.dateLabel}.</li>)}
+            </ul>
+          </Fragment>
+        ))
+      }
+    </section>
+
+    <section>
+      <h2>Media</h2>
+      <h3>Interviews</h3>
+      <ul class="cv-list">
+        {interviews.map((m) => <li>‘{m.title}’{m.note && ` [${m.note}]`}, <em>{m.outlet}</em>, {formatDate(m.date)}.</li>)}
+      </ul>
+      <h3>Commentary</h3>
+      <ul class="cv-list">
+        {commentary.map((m) => <li>‘{m.title}’{m.note && ` (${m.note})`}, <em>{m.outlet}</em>, {formatDate(m.date)}.</li>)}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Other activities</h2>
+      <ul class="cv-list">
+        {about.otherActivities.map((a) => <li>{a}</li>)}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Languages</h2>
+      <p>{about.languages.map((l) => `${l.name} (${l.level.toLowerCase()})`).join(', ')}.</p>
+    </section>
+
+    <p class="updated">Generated from petraalderman.com on {updated}.</p>
+  </div>
+
+  <script>
+    document.getElementById('print-cv')?.addEventListener('click', () => window.print());
+  </script>
+</Base>
+
+<style is:global>
+  .cv {
+    max-width: 52rem;
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+    font-size: 1.0625rem;
+    line-height: 1.5;
+  }
+
+  .cv-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--teal);
+  }
+
+  .cv-head h1 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    margin-block: 0.6rem 0.75rem;
+  }
+
+  .cv-head p {
+    margin: 0 0 0.4rem;
+  }
+
+  .cv-head .links {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .cv .print {
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid var(--teal);
+    border-radius: 3px;
+    background: var(--teal);
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .cv .print:hover {
+    background: var(--teal-deep);
+  }
+
+  .cv section {
+    padding-top: 1.75rem;
+  }
+
+  .cv h2 {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 0.9rem;
+  }
+
+  .cv h3 {
+    font-size: 1.0625rem;
+    font-weight: 500;
+    font-style: italic;
+    margin: 1.1rem 0 0.5rem;
+  }
+
+  .cv-rows li {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: 1rem;
+    padding-block: 0.3rem;
+    break-inside: avoid;
+  }
+
+  .cv-rows li > span:first-child {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    color: var(--muted);
+    padding-top: 0.2rem;
+  }
+
+  .cv-rows .what {
+    margin: 0;
+  }
+
+  .cv-rows .ext {
+    display: none;
+  }
+
+  .cv-list li {
+    padding-block: 0.3rem;
+    padding-left: 1rem;
+    text-indent: -1rem;
+    break-inside: avoid;
+  }
+
+  .cv .updated {
+    margin-top: 2rem;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  @media print {
+    .site-header,
+    .skip,
+    .cv .print {
+      display: none !important;
+    }
+
+    .cv {
+      max-width: none;
+      padding: 0;
+      font-size: 10pt;
+    }
+
+    .cv h2 {
+      break-after: avoid;
+    }
+
+    .cv a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+</style>

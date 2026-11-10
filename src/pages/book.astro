@@ -1,0 +1,176 @@
+---
+import Base from '../layouts/Base.astro';
+import Citation from '../components/Citation.astro';
+import { book } from '../content/site';
+import { research, podcasts } from '../content/pages';
+import { publications } from '../content/publications';
+
+const theme = research.themes.find((t) => t.id === 'nation-branding');
+const related = publications
+  .filter((p) => p.kind !== 'book' && p.themes?.includes('nation-branding'))
+  .sort((a, b) => b.year - a.year);
+const episode = podcasts.episodeGroups
+  .flatMap((g) => g.episodes)
+  .find((e) => e.title.startsWith('Branding Post-Coup Thailand'));
+---
+
+<Base title={book.title} description={`${book.title}: ${book.subtitle}. A book by Dr Petra Alderman, published by ${book.publisher}.`}>
+  <section class="book">
+    <div class="wrap">
+      <img src={book.cover} alt={`Cover of ${book.title}`} width="420" height="420" />
+      <div>
+        <span class="label">The book · {book.publisher} · {book.series}</span>
+        <h1 style="font-size: clamp(2.1rem, 4.5vw, 3.1rem); margin-block: 0.75rem 0.5rem">{book.title}</h1>
+        <p class="subtitle">{book.subtitle}</p>
+        <p class="meta">{book.formats}</p>
+        <a class="button" href={book.url}>Buy from {book.publisher}</a>
+      </div>
+    </div>
+  </section>
+
+  {
+    theme && (
+      <section class="section" style="border-top: 0">
+        <div class="wrap split">
+          <div>
+            <h2>The argument</h2>
+          </div>
+          <div class="prose">
+            {theme.paragraphs.map((p) => (
+              <p>{p}</p>
+            ))}
+            <a class="more" href="/research/#nation-branding">More on this research</a>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Contents</h2></div>
+      <ol class="chapters">
+        {
+          book.chapters.map((c, i) => (
+            <li>
+              <span class="num">{i + 1}</span>
+              <span class="name">{c.title}</span>
+              <span class="pages">{c.pages}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  {
+    book.reviews.length > 0 && (
+      <section class="section">
+        <div class="wrap split">
+          <div>
+            <h2>Reviews</h2>
+          </div>
+          <div class="prose">
+            {book.reviews.map((r) => (
+              <blockquote>
+                <p>{r.quote}</p>
+                <footer>{r.url ? <a href={r.url}>{r.by}</a> : r.by}</footer>
+              </blockquote>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    episode && (
+      <section class="section">
+        <div class="wrap split">
+          <div>
+            <h2>Listen</h2>
+          </div>
+          <ul class="plain">
+            <li>
+              <a href={episode.url}>{episode.title}</a>
+              <span style="display: block; color: var(--muted); font-size: 1.0625rem">
+                Podcast interview, New Books Network
+              </span>
+            </li>
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    related.length > 0 && (
+      <section class="section">
+        <div class="wrap split">
+          <div>
+            <h2>Related articles</h2>
+          </div>
+          <ul class="entries by-year">
+            {related.map((pub) => (
+              <li>
+                <span class="when">{pub.year}</span>
+                <Citation pub={pub} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section">
+    <div class="wrap split">
+      <div><h2>Details</h2></div>
+      <ul class="rows">
+        <li><span class="when">Publisher</span><span>{book.publisher}</span></li>
+        <li><span class="when">Series</span><span>{book.series}</span></li>
+        <li><span class="when">Formats</span><span>Hardback, paperback and ebook</span></li>
+        <li><span class="when">DOI</span><span><a href={book.doi}>{book.doi.replace('https://doi.org/', '')}</a></span></li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .chapters li {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr) auto;
+    gap: 1rem;
+    padding-block: 0.7rem;
+    border-top: 1px solid var(--rule);
+    max-width: var(--measure);
+  }
+
+  .chapters li:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .chapters .num,
+  .chapters .pages {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    color: var(--muted);
+    padding-top: 0.35rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  blockquote {
+    margin: 0 0 1.5rem;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--teal);
+    font-style: italic;
+  }
+
+  blockquote footer {
+    font-style: normal;
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+</style>

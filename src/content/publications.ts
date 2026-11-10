@@ -13,7 +13,13 @@
 import type { ThemeId } from './themes';
 
 /** Optional on every publication: which research themes it belongs to. */
-type Tagged = { themes?: ThemeId[] };
+type Tagged = {
+  themes?: ThemeId[];
+  /** true shows an "Open access" badge (the article is free to read). */
+  openAccess?: boolean;
+  /** Optional abstract, shown as an expandable "Abstract" under the entry. */
+  abstract?: string;
+};
 
 export type Publication = Tagged & (
   | {
@@ -84,6 +90,7 @@ export const publications: Publication[] = [
     journal: 'International Affairs',
     issue: '102, no. 6 (November 2026): 2127–2148',
     url: 'https://doi.org/10.1093/ia/iiag160',
+    openAccess: true,
   },
   {
     kind: 'article',
@@ -95,6 +102,7 @@ export const publications: Publication[] = [
     journal: 'International Political Science Review',
     issue: '46, no. 5 (November 2025): 751–766',
     url: 'https://doi.org/10.1177/01925121241312884',
+    openAccess: true,
     featured: true,
   },
   {
@@ -116,6 +124,7 @@ export const publications: Publication[] = [
     journal: 'Journal of Current Southeast Asian Affairs',
     issue: '43, no. 1 (April 2024): 3–25',
     url: 'https://doi.org/10.1177/18681034231190940',
+    openAccess: true,
     featured: true,
   },
   {
