@@ -2,7 +2,9 @@
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import { media, mediaIntro, type MediaItem } from '../content/media';
+import EmbedScript from '../components/EmbedScript.astro';
 import { formatDate, byDateDesc } from '../lib/format';
+import { youtube } from '../lib/embeds';
 
 const groups: { kind: MediaItem['kind']; id: string; heading: string }[] = [
   { kind: 'live', id: 'live-interviews', heading: 'Live interviews' },
@@ -11,8 +13,19 @@ const groups: { kind: MediaItem['kind']; id: string; heading: string }[] = [
 ];
 
 const sections = groups
-  .map((g) => ({ ...g, items: media.filter((m) => m.kind === g.kind).sort(byDateDesc) }))
-  .filter((g) => g.items.length > 0);
+  .map((g) => {
+    const all = media.filter((m) => m.kind === g.kind).sort(byDateDesc);
+    return {
+      ...g,
+      // Items with a YouTube link are shown as click-to-play videos.
+      videos: all.flatMap((m) => {
+        const yt = youtube(m.url);
+        return yt ? [{ ...m, yt }] : [];
+      }),
+      items: all.filter((m) => !youtube(m.url)),
+    };
+  })
+  .filter((g) => g.items.length + g.videos.length > 0);
 ---
 
 <Base title="Media" description="Interviews, commentary and blog posts by Dr Petra Alderman.">
@@ -34,6 +47,37 @@ const sections = groups
           <div>
             <h2>{s.heading}</h2>
           </div>
+          <div>
+          {s.videos.length > 0 && (
+            <ul class="videos">
+              {s.videos.map((m) => (
+                <li>
+                  <a
+                    class="video"
+                    href={m.url}
+                    data-embed={`https://www.youtube-nocookie.com/embed/${m.yt.id}?autoplay=1${m.yt.start ? `&start=${m.yt.start}` : ''}`}
+                    data-title={m.title}
+                  >
+                    <img
+                      src={`https://i.ytimg.com/vi/${m.yt.id}/hqdefault.jpg`}
+                      alt=""
+                      loading="lazy"
+                      width="480"
+                      height="360"
+                    />
+                    <span class="play">Watch</span>
+                  </a>
+                  <p class="what">
+                    <span class="title">{m.title}</span>
+                    <span class="sub">
+                      <em>{m.outlet}</em> · {formatDate(m.date)}
+                      {m.note && ` · ${m.note}`}
+                    </span>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
           <ul class="entries">
             {s.items.map((m) => (
               <li>
@@ -54,8 +98,10 @@ const sections = groups
               </li>
             ))}
           </ul>
+          </div>
         </div>
       </section>
     ))
   }
+  <EmbedScript />
 </Base>

@@ -1,7 +1,24 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
+import Citation from '../components/Citation.astro';
 import { research } from '../content/pages';
+import { publications } from '../content/publications';
+import { media } from '../content/media';
+import { events } from '../content/events';
+import type { ThemeId } from '../content/themes';
+import { formatDate, byDateDesc } from '../lib/format';
+
+const related = (id: string) => {
+  const has = (x: { themes?: ThemeId[] }) => x.themes?.includes(id as ThemeId);
+  return {
+    pubs: publications.filter(has).sort((a, b) => b.year - a.year),
+    media: media.filter(has).sort(byDateDesc),
+    talks: events.filter(has).sort(byDateDesc),
+  };
+};
+
+const themes = research.themes.map((t) => ({ ...t, related: related(t.id) }));
 ---
 
 <Base title="Research" description="Dr Petra Alderman's research on elections, nation branding and authoritarianism in Southeast Asia.">
@@ -18,7 +35,7 @@ import { research } from '../content/pages';
   </section>
 
   {
-    research.themes.map((t) => (
+    themes.map((t) => (
       <section class="section" id={t.id}>
         <div class="wrap split">
           <div>
@@ -28,6 +45,65 @@ import { research } from '../content/pages';
             {t.paragraphs.map((p) => (
               <p>{p}</p>
             ))}
+
+            {t.related.pubs.length > 0 && (
+              <div class="related">
+                <div class="related-head">
+                  <h3>Publications</h3>
+                  <a class="more" href={`/publications/?theme=${t.id}`}>
+                    Filter all publications
+                  </a>
+                </div>
+                <ul class="entries by-year compact">
+                  {t.related.pubs.map((pub) => (
+                    <li>
+                      <span class="when">{pub.year}</span>
+                      <Citation pub={pub} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {t.related.media.length > 0 && (
+              <div class="related">
+                <div class="related-head">
+                  <h3>Commentary & interviews</h3>
+                  <a class="more" href="/media/">All media</a>
+                </div>
+                <ul class="entries by-year compact">
+                  {t.related.media.slice(0, 4).map((m) => (
+                    <li>
+                      <span class="when">{m.date.slice(0, 4)}</span>
+                      <p class="what">
+                        {m.url ? <a class="title" href={m.url}>{m.title}</a> : <span class="title">{m.title}</span>}
+                        <span class="sub"><em>{m.outlet}</em> · {formatDate(m.date)}</span>
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {t.related.talks.length > 0 && (
+              <div class="related">
+                <div class="related-head">
+                  <h3>Recent talks</h3>
+                  <a class="more" href="/events/">All {t.related.talks.length} talks on this theme</a>
+                </div>
+                <ul class="entries by-year compact">
+                  {t.related.talks.slice(0, 3).map((e) => (
+                    <li>
+                      <span class="when">{e.date.slice(0, 4)}</span>
+                      <p class="what">
+                        <span class="title">{e.title}</span>
+                        {e.venue && <span class="sub">{e.venue}</span>}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </section>

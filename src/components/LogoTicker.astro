@@ -1,0 +1,116 @@
+---
+import { featuredOn } from '../content/site';
+
+// The strip scrolls by exactly half its width, so it holds an even number of
+// identical sets. Only the first set is announced to screen readers.
+const copies = 6;
+const sets = Array.from({ length: copies }, (_, i) => i);
+---
+
+<section class="ticker" aria-label="As featured on">
+  <div class="wrap">
+    <span class="label">As featured on</span>
+  </div>
+  <div class="ticker-window">
+    <div class="ticker-track">
+      {
+        sets.map((i) => (
+          <ul class="ticker-set" aria-hidden={i > 0 ? 'true' : undefined}>
+            {featuredOn.map((item) => (
+              <li>
+                <img
+                  src={item.logo}
+                  alt={i === 0 ? item.name : ''}
+                  style={`height: ${item.height}px`}
+                  loading="eager"
+                  decoding="async"
+                />
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .ticker {
+    border-block: 1px solid var(--rule);
+    background: var(--surface);
+    padding-block: 1.5rem 1.75rem;
+  }
+
+  .ticker .label {
+    display: block;
+    margin-bottom: 1.1rem;
+  }
+
+  .ticker-window {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker 60s linear infinite;
+  }
+
+  .ticker-window:hover .ticker-track {
+    animation-play-state: paused;
+  }
+
+  .ticker-set {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .ticker-set li {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    padding-inline: clamp(1.75rem, 4vw, 3.25rem);
+  }
+
+  .ticker-set img {
+    width: auto;
+    max-width: none;
+    filter: grayscale(1) contrast(1.15) brightness(0.75);
+    opacity: 0.8;
+    transition:
+      filter 0.2s,
+      opacity 0.2s;
+  }
+
+  .ticker-set img:hover {
+    filter: none;
+    opacity: 1;
+  }
+
+  @keyframes ticker {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* No motion: show one centred, static row. */
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+      animation: none;
+      width: auto;
+      justify-content: center;
+    }
+
+    .ticker-set[aria-hidden='true'] {
+      display: none;
+    }
+
+    .ticker-window {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+</style>

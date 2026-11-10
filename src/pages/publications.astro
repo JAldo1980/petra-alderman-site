@@ -3,6 +3,9 @@ import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Citation from '../components/Citation.astro';
 import { publications, type Publication } from '../content/publications';
+import { themes } from '../content/themes';
+
+const themeLabel = Object.fromEntries(themes.map((t) => [t.id, t.label]));
 
 const groups: { kind: Publication['kind']; id: string; heading: string }[] = [
   { kind: 'book', id: 'books', heading: 'Books' },
@@ -37,6 +40,12 @@ const sections = groups
         ))
       }
     </nav>
+
+    <div class="filter" id="theme-filter" hidden>
+      <span class="label">Filter by theme</span>
+      <button type="button" data-theme="" aria-pressed="true">All</button>
+      {themes.map((t) => <button type="button" data-theme={t.id} aria-pressed="false">{t.label}</button>)}
+    </div>
   </div>
 
   {
@@ -48,9 +57,18 @@ const sections = groups
           </div>
           <ul class="entries by-year">
             {s.items.map((pub) => (
-              <li>
+              <li data-themes={(pub.themes ?? []).join(' ')}>
                 <span class="when">{pub.year}</span>
-                <Citation pub={pub} />
+                <div>
+                  <Citation pub={pub} />
+                  {pub.themes && pub.themes.length > 0 && (
+                    <p class="chips">
+                      {pub.themes.map((id) => (
+                        <a href={`/research/#${id}`}>{themeLabel[id]}</a>
+                      ))}
+                    </p>
+                  )}
+                </div>
               </li>
             ))}
           </ul>
@@ -58,4 +76,44 @@ const sections = groups
       </section>
     ))
   }
+
+  <script>
+    const bar = document.getElementById('theme-filter');
+    const buttons = bar ? [...bar.querySelectorAll('button')] : [];
+    const entries = [...document.querySelectorAll<HTMLElement>('li[data-themes]')];
+    const counts = new Map(
+      [...document.querySelectorAll<HTMLAnchorElement>('.jump a')].map((a) => [
+        a.getAttribute('href')?.slice(1),
+        a,
+      ]),
+    );
+
+    function apply(theme: string) {
+      for (const li of entries) {
+        li.hidden = theme !== '' && !(li.dataset.themes ?? '').split(' ').includes(theme);
+      }
+      for (const section of document.querySelectorAll<HTMLElement>('main section[id]')) {
+        const visible = section.querySelectorAll('li[data-themes]:not([hidden])').length;
+        section.hidden = visible === 0;
+        const link = counts.get(section.id);
+        if (link) {
+          link.hidden = visible === 0;
+          const count = link.querySelector('.count');
+          if (count) count.textContent = String(visible);
+        }
+      }
+      for (const b of buttons) b.setAttribute('aria-pressed', String(b.dataset.theme === theme));
+      const url = new URL(location.href);
+      if (theme) url.searchParams.set('theme', theme);
+      else url.searchParams.delete('theme');
+      history.replaceState(null, '', url);
+    }
+
+    if (bar) {
+      bar.hidden = false;
+      for (const b of buttons) b.addEventListener('click', () => apply(b.dataset.theme ?? ''));
+      const initial = new URL(location.href).searchParams.get('theme') ?? '';
+      if (buttons.some((b) => b.dataset.theme === initial)) apply(initial);
+    }
+  </script>
 </Base>

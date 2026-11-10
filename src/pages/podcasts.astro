@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import { podcasts } from '../content/pages';
 import { site } from '../content/site';
+import EmbedScript from '../components/EmbedScript.astro';
 ---
 
 <Base title="Podcasts" description="Podcast episodes hosted by and featuring Dr Petra Alderman.">
@@ -44,8 +45,19 @@ import { site } from '../content/site';
               <h3>{g.heading}</h3>
               <ul class="plain">
                 {g.episodes.map((e) => (
-                  <li>
+                  <li class="episode">
                     <a href={e.url}>{e.title}</a>
+                    {'audio' in e && e.audio && (
+                      <a
+                        class="listen"
+                        href={e.url}
+                        data-embed={`https://playlist.megaphone.fm?e=${e.audio}`}
+                        data-kind="audio"
+                        data-title={e.title}
+                      >
+                        Listen
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -55,4 +67,5 @@ import { site } from '../content/site';
       </div>
     </div>
   </section>
+  <EmbedScript />
 </Base>

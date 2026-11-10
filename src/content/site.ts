@@ -60,3 +60,13 @@ export const book = {
   url: 'https://www.routledge.com/Branding-Authoritarian-Nations-Political-Legitimation-and-Strategic-National-Myths-in-Military-Ruled-Thailand/Alderman/p/book/9781032517551',
   cover: '/images/branding-authoritarian-nations.png',
 };
+
+// Broadcasters shown in the scrolling "As featured on" strip on the home page.
+// To add one: put its logo (SVG preferred) in public/images/logos/ and add a
+// line here. `height` is the display height in pixels — wide wordmarks look
+// right at about 26, square marks at about 44.
+export const featuredOn = [
+  { name: 'BBC', logo: '/images/logos/bbc.svg', height: 26 },
+  { name: 'France 24', logo: '/images/logos/france24.svg', height: 44 },
+  { name: 'ABC Australia', logo: '/images/logos/abc-australia.svg', height: 34 },
+];

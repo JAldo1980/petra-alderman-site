@@ -1,0 +1,113 @@
+---
+import { publications } from '../content/publications';
+import { media } from '../content/media';
+import { events } from '../content/events';
+import { formatDate, byDateDesc } from '../lib/format';
+
+// Newest publication: highest year; ties go to whichever is listed first.
+const newestYear = Math.max(...publications.map((p) => p.year));
+const pub = publications.find((p) => p.year === newestYear)!;
+const pubKind = { book: 'New book', article: 'New article', chapter: 'New chapter', report: 'New report' }[pub.kind];
+const pubWhere =
+  pub.kind === 'article' ? pub.journal : pub.kind === 'chapter' ? pub.book : pub.publisher;
+
+const commentary = media.filter((m) => m.kind === 'commentary').sort(byDateDesc)[0];
+
+const today = new Date().toISOString().slice(0, 10);
+const next = events.filter((e) => e.date >= today).sort((a, b) => a.date.localeCompare(b.date))[0];
+---
+
+<section class="latest" aria-label="Latest">
+  <div class="wrap">
+    <ul>
+      <li>
+        <span class="label">{pubKind} · {pub.year}</span>
+        <h2>{pub.url ? <a href={pub.url}>{pub.title}</a> : pub.title}</h2>
+        <p><em>{pubWhere}</em></p>
+      </li>
+      {
+        commentary && (
+          <li>
+            <span class="label">Latest commentary · {formatDate(commentary.date)}</span>
+            <h2>{commentary.url ? <a href={commentary.url}>{commentary.title}</a> : commentary.title}</h2>
+            <p>
+              <em>{commentary.outlet}</em>
+            </p>
+          </li>
+        )
+      }
+      {
+        next && (
+          <li>
+            <span class="label">Next talk · {next.dateLabel}</span>
+            <h2>{next.url ? <a href={next.url}>{next.title}</a> : next.title}</h2>
+            {next.venue && <p>{next.venue}</p>}
+          </li>
+        )
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .latest {
+    background: var(--teal-deep);
+    color: #f3efe6;
+  }
+
+  .latest ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  }
+
+  .latest li {
+    padding: 1.75rem 0;
+  }
+
+  @media (min-width: 40rem) {
+    .latest li + li {
+      border-left: 1px solid rgb(255 255 255 / 0.18);
+      padding-left: 2.25rem;
+    }
+
+    .latest li:not(:last-child) {
+      padding-right: 2.25rem;
+    }
+  }
+
+  @media (max-width: 39.99rem) {
+    .latest li + li {
+      border-top: 1px solid rgb(255 255 255 / 0.18);
+    }
+  }
+
+  .latest .label {
+    color: #e9b9a3;
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+
+  .latest h2 {
+    font-size: 1.35rem;
+    line-height: 1.3;
+    letter-spacing: 0;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+
+  .latest a {
+    color: inherit;
+    text-decoration-color: rgb(255 255 255 / 0.35);
+  }
+
+  .latest a:hover {
+    color: #fff;
+    text-decoration-color: #fff;
+  }
+
+  .latest p {
+    margin: 0;
+    font-size: 1.0625rem;
+    color: #b9c9cf;
+  }
+</style>

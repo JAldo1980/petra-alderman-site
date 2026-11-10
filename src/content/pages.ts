@@ -188,7 +188,10 @@ export const podcasts = {
     },
   ],
 
-  // To add an episode, add a line to the right group (or add a new group).
+  // To add an episode, add an entry to the right group (or add a new group).
+  // `audio` is optional: it is the episode's Megaphone id, which turns the entry
+  // into a click-to-play player. Find it on the episode's New Books Network page
+  // (View Source, search for "megaphone.fm?e=").
   episodeGroups: [
     {
       heading: 'As a guest speaker',
@@ -196,6 +199,7 @@ export const podcasts = {
         {
           title: 'Branding Post-Coup Thailand with Petra Desatova',
           url: 'https://newbooksnetwork.com/003-branding-post-coup-thailand-with-petra-desatova',
+          audio: 'NBN6903095963',
         },
       ],
     },
@@ -206,34 +210,41 @@ export const podcasts = {
           title:
             'Can Thailand Move Forward? A Discussion of the May 2023 Thai Election with Duncan McCargo and Ken Lohatepanont',
           url: 'https://newbooksnetwork.com/can-thailand-move-forward',
+          audio: 'NSR3045754903',
         },
         {
           title:
             'Broken Pathways: Women’s Political Leadership in Sri Lanka with Ramona Vijeyarasa and Nadine Vanniasinkam',
           url: 'https://newbooksnetwork.com/the-woman-president',
+          audio: 'NBN4635335531',
         },
         {
           title: 'The Race for the Governor: Talking Bangkok Elections with Saksith Saiyasombut',
           url: 'https://newbooksnetwork.com/the-race-for-the-governor-talking-bangkok-elections-with-saksith-saiyasombut',
+          audio: 'NBN4209383841',
         },
         {
           title:
             'Thai Totalitarians? Why the Love of Authoritarian Symbols? A discussion with Verita Sriratana',
           url: 'https://newbooksnetwork.com/thai-totalitarians-why-the-love-of-authoritarian-symbols',
+          audio: 'NBN8985001764',
         },
         {
           title:
             '‘Network Monarchy’ and Its Challengers: Making Sense of Thai Politics with Duncan McCargo',
           url: 'https://newbooksnetwork.com/network-monarchy-and-its-challengers-making-sense-of-thai-politics-with-duncan-mccargo',
+          audio: 'NBN7655510241',
         },
         {
           title:
             'Salafism and the State: Islamic Activism and National Identity in Contemporary Indonesia with Chris Chaplin',
           url: 'https://newbooksnetwork.com/chris-chaplin-salafism-and-the-state-islamic-activism-and-national-identity-in-contemporary-indonesia-nias-press-2021',
+          audio: 'NBN6744590397',
         },
         {
           title: 'The Global Sushi Hype with Tine Walravens',
           url: 'https://newbooksnetwork.com/the-global-sushi-hype-with-tine-walravens',
+          audio: 'NBN8692278164',
         },
       ],
     },

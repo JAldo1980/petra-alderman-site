@@ -1,0 +1,32 @@
+---
+// Click-to-play. Links marked with data-embed open in place as a player; until
+// then nothing is loaded from YouTube or Megaphone. Without JavaScript they
+// remain ordinary links.
+---
+
+<script>
+  document.addEventListener('click', (event) => {
+    const target = event.target instanceof Element ? event.target.closest('a[data-embed]') : null;
+    if (!(target instanceof HTMLAnchorElement)) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+    event.preventDefault();
+
+    const frame = document.createElement('iframe');
+    frame.src = target.dataset.embed ?? '';
+    frame.title = target.dataset.title ?? 'Player';
+    frame.loading = 'lazy';
+
+    if (target.dataset.kind === 'audio') {
+      frame.className = 'audio-frame';
+      frame.height = '200';
+      target.closest('li')?.append(frame);
+      target.remove();
+    } else {
+      frame.className = 'video-frame';
+      frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      frame.allowFullscreen = true;
+      target.replaceWith(frame);
+    }
+    frame.focus();
+  });
+</script>

@@ -2,9 +2,20 @@
 // list and change the details. Order does not matter: entries are sorted by
 // year (newest first) automatically.
 //
+// `themes` (optional) links an entry to research themes: 'elections',
+// 'nation-branding', 'southeast-asia'.
+//
+// The home page's "Latest" panel shows the first entry in this list with the
+// highest year, so put a brand-new publication above others from the same year.
+//
 // Set `featured: true` to also show an entry on the home page.
 
-export type Publication =
+import type { ThemeId } from './themes';
+
+/** Optional on every publication: which research themes it belongs to. */
+type Tagged = { themes?: ThemeId[] };
+
+export type Publication = Tagged & (
   | {
       kind: 'book';
       year: number;
@@ -47,12 +58,14 @@ export type Publication =
       publisher: string;
       url?: string;
       featured?: boolean;
-    };
+    }
+);
 
 export const publications: Publication[] = [
   // ── Books ────────────────────────────────────────────────────────────────
   {
     kind: 'book',
+    themes: ['nation-branding'],
     year: 2024,
     authors: 'Alderman, Petra',
     title:
@@ -64,6 +77,7 @@ export const publications: Publication[] = [
   // ── Journal articles ─────────────────────────────────────────────────────
   {
     kind: 'article',
+    themes: ['nation-branding'],
     year: 2026,
     authors: 'Alderman, Petra and Jonathan Fisher',
     title: '“Brand Future” and the future of authoritarianism in the Gulf',
@@ -73,6 +87,7 @@ export const publications: Publication[] = [
   },
   {
     kind: 'article',
+    themes: ['elections'],
     year: 2025,
     authors: 'Alderman, Petra',
     title:
@@ -84,6 +99,7 @@ export const publications: Publication[] = [
   },
   {
     kind: 'article',
+    themes: ['southeast-asia'],
     year: 2024,
     authors: 'Alderman, Petra, Duncan McCargo, Alfred Gerstl and James Iocovozzi',
     title: 'All About China?',
@@ -93,6 +109,7 @@ export const publications: Publication[] = [
   },
   {
     kind: 'article',
+    themes: ['elections'],
     year: 2024,
     authors: 'Alderman, Petra',
     title: 'Autocratic Electoral Management: Lessons from Thailand',
@@ -103,6 +120,7 @@ export const publications: Publication[] = [
   },
   {
     kind: 'article',
+    themes: ['nation-branding'],
     year: 2024,
     authors: 'Alderman, Petra and Kristin Eggeling',
     title: 'Vision documents, nation branding and the legitimation of non-democratic regimes',
@@ -113,6 +131,7 @@ export const publications: Publication[] = [
   },
   {
     kind: 'article',
+    themes: ['elections'],
     year: 2023,
     authors: 'Desatova, Petra and Saowanee T. Alexander',
     title: 'Election Commissions and Non-Democratic Outcomes: Thailand’s Contentious 2019 Election',
@@ -122,6 +141,7 @@ export const publications: Publication[] = [
   },
   {
     kind: 'article',
+    themes: ['southeast-asia'],
     year: 2019,
     authors: 'Desatova, Petra',
     title: 'Bangkok: Two Cities',
@@ -131,6 +151,7 @@ export const publications: Publication[] = [
   },
   {
     kind: 'article',
+    themes: ['nation-branding'],
     year: 2018,
     authors: 'Desatova, Petra',
     title: 'Thailand 4.0 and the Internal Focus of Nation Branding',
@@ -141,6 +162,7 @@ export const publications: Publication[] = [
   },
   {
     kind: 'article',
+    themes: ['elections'],
     year: 2017,
     authors: 'McCargo, Duncan, Saowanee T. Alexander and Petra Desatova',
     title: 'Ordering Peace: Thailand’s 2016 Constitutional Referendum',
@@ -152,6 +174,7 @@ export const publications: Publication[] = [
   // ── Book chapters ────────────────────────────────────────────────────────
   {
     kind: 'chapter',
+    themes: ['elections'],
     year: 2016,
     authors: 'McCargo, Duncan and Petra Desatova',
     title: 'Thailand: Electoral Intimidation',
@@ -172,6 +195,7 @@ export const publications: Publication[] = [
   },
   {
     kind: 'report',
+    themes: ['elections'],
     year: 2022,
     authors: 'Alderman, Petra',
     title: 'What we know (and don’t know) about election observation in 2021',
@@ -180,6 +204,7 @@ export const publications: Publication[] = [
   },
   {
     kind: 'report',
+    themes: ['elections'],
     year: 2022,
     authors: 'Alderman, Petra',
     title:

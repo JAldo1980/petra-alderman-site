@@ -1,7 +1,8 @@
 # petraalderman.com
 
 Academic website for Dr Petra Alderman. Built with [Astro](https://astro.build) as a
-fully static site (plain HTML and CSS, no client-side JavaScript) and deployed on Netlify.
+fully static site and deployed on Netlify. The only JavaScript is two small scripts: the
+publication theme filter and click-to-play for video and audio.
 
 ## Run it locally
 
@@ -23,12 +24,25 @@ All content lives in `src/content/`. You never need to touch the page layouts.
 | Interviews, commentary, blog posts                 | `src/content/media.ts`        |
 | Talks, briefings, conferences (past and upcoming)  | `src/content/events.ts`       |
 | About, Research, Teaching and Podcasts text        | `src/content/pages.ts`        |
+| Logos in the "As featured on" strip                | `src/content/site.ts`         |
+| The list of research themes                        | `src/content/themes.ts`       |
 
 Each file starts with a short note on its fields. In general: copy an existing
 entry, paste it into the list, change the details, save.
 
 - **Sorting is automatic.** Publications sort by `year`, media and events by `date`
   (`YYYY-MM-DD`), newest first. Put new entries anywhere in the list.
+- **Research themes.** Add `themes: ['elections']` (or `'nation-branding'`,
+  `'southeast-asia'`, or several) to any publication, media item or event. Tagged
+  items appear as related work under that theme on the Research page, and
+  publications can be filtered by theme.
+- **Latest panel.** The band under the home page hero fills itself: the newest
+  publication (highest `year`; for a tie, whichever is listed first in the file),
+  the newest commentary item, and the next upcoming event if there is one.
+- **Video.** Give a media item a YouTube `url` and it becomes a click-to-play video.
+- **Podcast audio.** Give an episode an `audio` id (see the note in `pages.ts`) and
+  it gets a Listen button. Nothing loads from YouTube or Megaphone until a visitor
+  clicks play, apart from the YouTube thumbnail image.
 - **Home page picks.** Publications marked `featured: true` appear under
   "Selected publications". "Recent commentary" always shows the four newest
   commentary items from `media.ts`.

@@ -6,9 +6,13 @@
 //           'commentary' → Commentary and blog posts
 //   date:   'YYYY-MM-DD'
 //   note:   optional, shown after the title, e.g. 'in Thai' or 'with Nic Cheeseman'
-//   url:    optional
+//   url:    optional. A YouTube link is automatically shown as a click-to-play video.
+//   themes: optional research themes: 'elections', 'nation-branding', 'southeast-asia'
+
+import type { ThemeId } from './themes';
 
 export type MediaItem = {
+  themes?: ThemeId[];
   kind: 'live' | 'interview' | 'commentary';
   title: string;
   outlet: string;
@@ -26,6 +30,7 @@ export const media: MediaItem[] = [
   // ── Live interviews ──────────────────────────────────────────────────────
   {
     kind: 'live',
+    themes: ['elections'],
     title: 'Paetongtarn Shinawatra leads polls as Thailand heads towards election | The World',
     outlet: 'ABC (Australia)',
     date: '2023-04-19',
@@ -33,6 +38,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'live',
+    themes: ['elections'],
     title: 'Thailand’s 2019 elections as seen by foreign scholars',
     note: 'in Thai',
     outlet: 'BBC Thai',
@@ -43,6 +49,7 @@ export const media: MediaItem[] = [
   // ── Other interviews ─────────────────────────────────────────────────────
   {
     kind: 'interview',
+    themes: ['elections'],
     title: 'The progressive Move Forward Party shakes up Thailand',
     note: 'in French',
     outlet: 'La Croix',
@@ -50,6 +57,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'interview',
+    themes: ['southeast-asia'],
     title: 'Student Flash Mobs: A flash in the frying pan or a bushfire',
     note: 'in Thai',
     outlet: 'BBC Thai',
@@ -58,6 +66,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'interview',
+    themes: ['southeast-asia'],
     title:
       'Future Forward: A Thai politics expert points out that the dissolution of the [Future Forward] party shows that power is still in the hands of a small elite',
     note: 'in Thai',
@@ -67,6 +76,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'interview',
+    themes: ['nation-branding'],
     title: 'Rebranding Thailand: why is junta so obsessed with wordplay?',
     outlet: 'Prachatai English',
     date: '2018-02-04',
@@ -76,6 +86,7 @@ export const media: MediaItem[] = [
   // ── Commentary and blog posts ────────────────────────────────────────────
   {
     kind: 'commentary',
+    themes: ['southeast-asia'],
     title: 'Why domestic politics keeps complicating the conflict between Thailand and Cambodia',
     outlet: 'The Conversation',
     date: '2025-12-12',
@@ -83,6 +94,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'commentary',
+    themes: ['southeast-asia'],
     title:
       'Thailand’s politically influential Shinawatra family is fading from centre stage – for now',
     outlet: 'The Conversation',
@@ -91,6 +103,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'commentary',
+    themes: ['southeast-asia'],
     title: 'Thailand and Cambodia’s escalating conflict has roots in century-old border dispute',
     outlet: 'The Conversation',
     date: '2025-07-24',
@@ -98,6 +111,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'commentary',
+    themes: ['southeast-asia'],
     title: 'A border conflict may cost the Thai prime minister her job',
     outlet: 'The Conversation',
     date: '2025-06-24',
@@ -105,6 +119,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'commentary',
+    themes: ['southeast-asia'],
     title: 'Thailand’s conservative elites oust prime minister and ban opposition',
     outlet: 'The Conversation',
     date: '2024-08-15',
@@ -112,6 +127,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'commentary',
+    themes: ['elections'],
     title: 'Can Thailand move forward past its historic 2023 election?',
     outlet: 'Central European Institute of Asian Studies',
     date: '2023-06-17',
@@ -135,6 +151,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'commentary',
+    themes: ['elections'],
     title: 'Kenya election: four ways to better safeguard and defend democracy',
     note: 'with Nic Cheeseman',
     outlet: 'The Conversation',
@@ -143,6 +160,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'commentary',
+    themes: ['elections'],
     title: 'Undermining Democracy? “Independent” Election Commission in Non-Democratic Regimes',
     note: 'with Saowanee T. Alexander',
     outlet: 'Politics Blog',
@@ -151,6 +169,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'commentary',
+    themes: ['southeast-asia'],
     title: 'Anand Panyarachun and The Making of Modern Thailand: A Review',
     outlet: 'Council on Foreign Relations',
     date: '2019-05-21',
@@ -158,6 +177,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'commentary',
+    themes: ['southeast-asia'],
     title: 'What happened to Thailand’s Democrat Party?',
     outlet: 'Thai Data Points',
     date: '2019-04-15',
@@ -165,6 +185,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'commentary',
+    themes: ['nation-branding'],
     title: 'Nation Branding in Post-Coup Thailand: A Strategy for Political Legitimation?',
     outlet: 'Kyoto Review of Southeast Asia',
     date: '2019-01-01',
@@ -172,6 +193,7 @@ export const media: MediaItem[] = [
   },
   {
     kind: 'commentary',
+    themes: ['nation-branding'],
     title: 'Building the Future Forward Party brand in junta-ruled Thailand',
     outlet: 'Asia Dialogue',
     date: '2018-11-13',

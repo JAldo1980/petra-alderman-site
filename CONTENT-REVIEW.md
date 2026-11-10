@@ -33,6 +33,15 @@ sources were out of date, disagreed, or could not be checked.
 - **Events.** Removed "Book launch events coming soon". Nothing is listed after
   2022 — add recent talks in `events.ts`.
 
+## Research theme tags — please check
+
+Every publication, media item and talk has been tagged with a research theme
+(elections, nation branding, Southeast Asia) so related work can be shown on the
+Research page. The tags are a reading of the titles, not Petra's own
+classification. Three items are deliberately untagged: the Westminster Foundation
+for Democracy report and the two June 2023 CEDAR blog posts. Change any tag by
+editing the `themes: [...]` line on the entry.
+
 ## Could not verify
 
 - **France24.** The home page intro says "appeared on BBC, France24, and ABC
