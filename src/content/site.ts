@@ -72,31 +72,17 @@ export const featuredOn = [
 ];
 
 // Institutions shown in a small row at the bottom of the home page hero, each
-// with its coat of arms (or seal). `arms` is optional: without one, only the
-// name and note are shown. Image files live in public/images/logos/.
-// Credits for these images are listed on the /credits/ page — add a line there
-// if you add an image that needs attribution.
-export const affiliations: { name: string; note: string; arms?: string }[] = [
+// with its coat of arms (or seal). `arms` is optional. Image files live in
+// public/images/logos/. Credits for these images are listed on the /credits/
+// page — add a line there if you add an image that needs attribution.
+export const affiliations: { name: string; arms?: string }[] = [
   {
     name: 'London School of Economics and Political Science',
-    note: 'Current',
     arms: '/images/logos/lse-arms.svg',
   },
-  {
-    name: 'University of Birmingham',
-    note: 'Research Fellow, 2021–2025',
-    arms: '/images/logos/birmingham-arms.svg',
-  },
-  {
-    name: 'University of Copenhagen',
-    note: 'Postdoctoral Fellow, 2019–2021',
-    arms: '/images/logos/copenhagen-seal.svg',
-  },
-  {
-    name: 'University of Leeds',
-    note: 'PhD, MA, BA',
-    arms: '/images/logos/leeds-arms.svg',
-  },
+  { name: 'University of Birmingham', arms: '/images/logos/birmingham-arms.svg' },
+  { name: 'University of Copenhagen', arms: '/images/logos/copenhagen-seal.svg' },
+  { name: 'University of Leeds', arms: '/images/logos/leeds-arms.svg' },
 ];
 
 // Attribution for images used under a Creative Commons licence (shown on /credits/).
